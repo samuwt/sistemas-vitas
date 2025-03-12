@@ -1,0 +1,13 @@
+#version: "3.9"
+services:
+  clinica_api:
+    build: ./app
+    container_name: clinica_api
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./init_db.sql:/init_db.sql  # Ensure this file exists and is not a directory
+    environment:
+      - FLASK_APP=/app/main.py   # Definindo o arquivo principal da aplicação
+      - FLASK_ENV=development
+    command: flask run --host=0.0.0.0 --port=5000
