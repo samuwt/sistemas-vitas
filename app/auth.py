@@ -23,13 +23,13 @@ def verificar_usuario(email, senha):
     cursor = conn.cursor()
     
     # Fetch the hashed password for the given email
-    cursor.execute("SELECT senha FROM usuarios WHERE email = %s", (email,))
+    cursor.execute("SELECT nome, senha FROM usuarios WHERE email = %s", (email,))
     usuario = cursor.fetchone()
-    
+
     conn.close()
-    nome_usuario = email.split('@')[0]
+    # nome_usuario = email.split('@')[0]
     # Verify the password using bcrypt
     if usuario and bcrypt.checkpw(senha.encode(), usuario['senha'].encode()):
-        return nome_usuario  # or the appropriate user type
+        return usuario['nome']  # or the appropriate user type
     
     return None
