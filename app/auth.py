@@ -27,9 +27,9 @@ def verificar_usuario(email, senha):
     usuario = cursor.fetchone()
     
     conn.close()
-    
+    nome_usuario = email.split('@')[0]
     # Verify the password using bcrypt
     if usuario and bcrypt.checkpw(senha.encode(), usuario['senha'].encode()):
-        return "medico"  # or the appropriate user type
+        return nome_usuario  # or the appropriate user type
     
     return None

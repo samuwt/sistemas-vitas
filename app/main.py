@@ -27,6 +27,7 @@ def login():
     tipo_usuario = verificar_usuario(email, senha)
     
     if tipo_usuario:
+        
         session['usuario'] = email
         session['tipo'] = tipo_usuario
         return jsonify({"message": f"Bem-vindo, {tipo_usuario}!"}), 200
