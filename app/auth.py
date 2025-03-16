@@ -1,27 +1,35 @@
 import bcrypt
-import sqlite3
+import psycopg2
+from psycopg2.extras import RealDictCursor
+
+# PostgreSQL connection string
+DATABASE_URL = "postgresql://postgres:postgres@db_init:5432/clinica"
+
 def criar_usuario(email, senha):
-    conn = sqlite3.connect('clinica.db')
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)
     cursor = conn.cursor()
-    
+
     # Generate a bcrypt salt and hash the password
     salt = bcrypt.gensalt()
     hashed_senha = bcrypt.hashpw(senha.encode(), salt)
-    
-    cursor.execute("INSERT INTO usuarios (email, senha) VALUES (?, ?)", (email, hashed_senha.decode()))
+
+    # Insert the user into the database
+    cursor.execute("INSERT INTO usuarios (email, senha) VALUES (%s, %s)", (email, hashed_senha.decode()))
     conn.commit()
     conn.close()
-    
+
 def verificar_usuario(email, senha):
-    conn = sqlite3.connect('clinica.db')
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)
     cursor = conn.cursor()
     
-    cursor.execute("SELECT senha FROM usuarios WHERE email = ?", (email,))
+    # Fetch the hashed password for the given email
+    cursor.execute("SELECT senha FROM usuarios WHERE email = %s", (email,))
     usuario = cursor.fetchone()
     
     conn.close()
     
-    if usuario and bcrypt.checkpw(senha.encode(), usuario[0].encode()):
+    # Verify the password using bcrypt
+    if usuario and bcrypt.checkpw(senha.encode(), usuario['senha'].encode()):
         return "medico"  # or the appropriate user type
     
     return None

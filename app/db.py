@@ -1,22 +1,21 @@
-import sqlite3
-import os
+import psycopg2
+from psycopg2.extras import RealDictCursor
 
-DB_NAME = 'clinica.db'
-
-# Obtém o caminho absoluto do diretório do arquivo atual
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SQL_FILE = os.path.join(BASE_DIR, 'init_db.sql')  # Caminho correto para init_db.sql
+DATABASE_URL = "postgresql://postgres:postgres@db_init:5432/clinica"
 
 def conectar():
-    conn = sqlite3.connect(DB_NAME)
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)
     return conn
 
 def criar_tabelas():
     conn = conectar()
-    with open(SQL_FILE, "r") as f:
-        conn.executescript(f.read())
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS usuarios (
+            id SERIAL PRIMARY KEY,
+            email VARCHAR(255) NOT NULL UNIQUE,
+            senha VARCHAR(255) NOT NULL
+        );
+    """)
     conn.commit()
     conn.close()
-
-if __name__ == "__main__":
-    criar_tabelas()

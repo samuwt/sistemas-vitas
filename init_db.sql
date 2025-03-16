@@ -1,11 +1,9 @@
-CREATE TABLE IF NOT EXISTS usuarios (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL,
-    email TEXT UNIQUE NOT NULL,
-    senha TEXT NOT NULL,
-    tipo TEXT NOT NULL CHECK(tipo IN ('Medico', 'Enfermeiro', 'Recepcionista', 'Administrador', 'Financeiro', 'Suporte', 'Paciente'))
+CREATE TABLE usuarios (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL
 );
 
-INSERT INTO usuarios (nome, email, senha, tipo) VALUES
-('Dr. João', 'medico@clinica.com', '$2b$12$ExemploDeSenhaHasheada', 'Medico'),
-('Maria', 'recepcao@clinica.com', '$2b$12$OutraSenhaHasheada', 'Recepcionista');
+INSERT INTO usuarios (email, senha) VALUES
+('medico@clinica.com', '$2y$10$yghYzaEuJ.SgSNDGPkO7fuFspjUPRSwvn7TCq1aM9QAXZX22poREO'),
+('recepcao@clinica.com', '$2y$10$rFWCOTVeuXla/CeFSJCWyemz5hZbA.GSsKLbpfk.02oDP0fufJpSO');
