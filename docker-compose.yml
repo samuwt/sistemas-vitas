@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  postgres_db:
+    image: postgres:17
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: clinica
+    volumes:
+      - ./init_db.sql:/docker-entrypoint-initdb.d/init_db.sql  # Place init_db.sql in the correct directory
+    ports:
+      - "5432:5432"
+
+  clinica_api:
+    build: ./
+    container_name: clinica_api
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=/app/app/main.py
+      - FLASK_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@postgres_db:5432/clinica
+    depends_on:
+      - postgres_db
+    command: flask run --host=0.0.0.0 --port=5000
