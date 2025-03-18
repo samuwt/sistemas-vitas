@@ -15,4 +15,4 @@ EXPOSE 5000
 
 # Comando para rodar a aplicação
 #CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
-CMD ["python", "main.py"]
+CMD ["python", "/app/app/main.py"]

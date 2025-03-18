@@ -3,7 +3,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 
 # PostgreSQL connection string
-DATABASE_URL = "postgresql://postgres:postgres@db_init:5432/clinica"
+DATABASE_URL = "postgresql://postgres:postgres@postgres_db:5432/clinica"
 
 def criar_usuario(email, senha):
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)

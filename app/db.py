@@ -1,7 +1,7 @@
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
-DATABASE_URL = "postgresql://postgres:postgres@db_init:5432/clinica"
+DATABASE_URL = "postgresql://postgres:postgres@postgres_db:5432/clinica"
 
 def conectar():
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)
