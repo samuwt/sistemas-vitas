@@ -1,2 +1,2 @@
-# clinica-medica
-Projeto de clinica médica.
+# SISTEMA VITAS
+Sistema de Visualização Integrada de Tratamentos e Acompanhamento de Saúde.
